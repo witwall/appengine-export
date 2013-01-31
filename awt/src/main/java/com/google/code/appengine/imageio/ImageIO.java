@@ -34,6 +34,7 @@ import java.util.List;
 import org.apache.harmony.luni.util.NotImplementedException;
 import org.apache.harmony.x.imageio.internal.nls.Messages;
 import org.apache.sanselan.ImageReadException;
+import org.apache.sanselan.Sanselan;
 import org.apache.sanselan.common.byteSources.ByteSourceInputStream;
 import org.apache.sanselan.formats.png.PngImageParser;
 
@@ -316,8 +317,15 @@ public final class ImageIO {
         if (input == null) {
             throw new IllegalArgumentException(Messages.getString("imageio.52"));
         }
+        
+        try {
+			return Sanselan.getBufferedImage(input);
+		} catch (ImageReadException e) {
+			// TODO Auto-generated catch block
+			throw new IOException(e);
+		}
        
-        if(input.getName().endsWith(".png")) {
+/*        if(input.getName().endsWith(".png")) {
         	PngImageParser parser = new PngImageParser();
         	try {
 				return parser.getBufferedImage(input, new HashMap());
@@ -327,19 +335,27 @@ public final class ImageIO {
         }
 
         ImageInputStream stream = createImageInputStream(input);
-        return read(stream);
+        return read(stream);*/
     }
 
     public static BufferedImage read(InputStream input) throws IOException {
         if (input == null) {
             throw new IllegalArgumentException(Messages.getString("imageio.52"));
         }
-        PngImageParser parser = new PngImageParser();
+        
+        try {
+			return Sanselan.getBufferedImage(input);
+		} catch (ImageReadException e) {
+			// TODO Auto-generated catch block
+			throw new IOException(e);
+		}
+        
+/*        PngImageParser parser = new PngImageParser();
         try {
 			return parser.getBufferedImage(new ByteSourceInputStream(input, "file.png"), Collections.emptyMap());
 		} catch (ImageReadException e) {
 			throw new IOException(e);
-		}
+		}*/
     }
 
     public static BufferedImage read(URL input) throws IOException {
